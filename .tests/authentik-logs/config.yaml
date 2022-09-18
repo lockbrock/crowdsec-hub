@@ -1,0 +1,9 @@
+parsers:
+- crowdsecurity/syslog-logs
+- ./parsers/s01-parse/lockbrock/authentik-logs.yaml
+scenarios:
+postoverflows: 
+log_file: authentik-logs.log
+log_type: authentik
+labels: {}
+ignore_parsers: false
