@@ -1,10 +1,9 @@
-filter: 1 == 1
-debug: true
+filter: "evt.Parsed.program == 'authentik'"
 onsuccess: next_stage
 name: crowdsecurity/authentik-logs
 description: "Parse Authentik Logs"
 pattern_syntax:
-  AUTHENTIK_BAD_LOGIN: 'client_ip": "%{IPORHOST:source_ip}".*"username": "%{DATA:username}".*"host": "%{DATA:url}".*"timestamp": "%{DATA:timestamp}"'
+  AUTHENTIK_BAD_LOGIN: 'action": "login_failed", .*client_ip": "%{IPORHOST:source_ip}".*"username": "%{DATA:username}".*"host": "%{DATA:url}".*"timestamp": "%{DATA:timestamp}"'
 nodes:
  - grok:
      name: "AUTHENTIK_BAD_LOGIN"
@@ -17,3 +16,13 @@ nodes:
 statics:
     - meta: service
       value: authentik
+    - target: evt.StrTime
+      expression: evt.Parsed.timestamp
+    - meta: timestamp
+      expression: evt.Parsed.timestamp
+    - meta: target_user
+      expression: evt.Parsed.username
+    - meta: authentik_url
+      expression: evt.Parsed.url
+    - meta: source_ip
+      expression: evt.Parsed.source_ip

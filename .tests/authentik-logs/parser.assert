@@ -1,23 +1,54 @@
 len(results) == 3
-len(results["s00-raw"]["crowdsecurity/non-syslog"]) == 1
+len(results["s00-raw"]["crowdsecurity/non-syslog"]) == 3
 results["s00-raw"]["crowdsecurity/non-syslog"][0].Success == true
-results["s00-raw"]["crowdsecurity/non-syslog"][0].Evt.Parsed["message"] == "{\"action\": \"login_failed\", \"auth_via\": \"unauthenticated\", \"client_ip\": \"192.168.1.11\", \"context\": {\"http_request\": {\"args\": {\"query\": \"next=Page\"}, \"method\": \"POST\", \"path\": \"/api/v3/flows/executor/login/\"}, \"password\": \"********************\", \"stage\": {\"app\": \"authentik_stages_identification\", \"model_name\": \"identificationstage\", \"name\": \"default-authentication-identification\", \"pk\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}, \"username\": \"Admin\"}, \"event\": \"Created Event\", \"host\": \"auth.example.com\", \"level\": \"info\", \"logger\": \"authentik.events\", \"pid\": 1, \"request_id\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"timestamp\": \"2022-09-01T12:00:00.000000\", \"user\": {\"email\": \"\", \"pk\": 1, \"username\": \"AnonymousUser\"}}"
+results["s00-raw"]["crowdsecurity/non-syslog"][0].Evt.Parsed["message"] == "{\"action\": \"login_failed\", \"auth_via\": \"unauthenticated\", \"client_ip\": \"1.2.3.4\", \"context\": {\"http_request\": {\"args\": {\"query\": \"next=Page\"}, \"method\": \"POST\", \"path\": \"/api/v3/flows/executor/login/\"}, \"password\": \"********************\", \"stage\": {\"app\": \"authentik_stages_identification\", \"model_name\": \"identificationstage\", \"name\": \"default-authentication-identification\", \"pk\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}, \"username\": \"Admin\"}, \"event\": \"Created Event\", \"host\": \"auth.example.com\", \"level\": \"info\", \"logger\": \"authentik.events\", \"pid\": 1, \"request_id\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"timestamp\": \"2022-09-01T12:00:00.000000\", \"user\": {\"email\": \"\", \"pk\": 1, \"username\": \"AnonymousUser\"}}"
 results["s00-raw"]["crowdsecurity/non-syslog"][0].Evt.Parsed["program"] == "authentik"
 results["s00-raw"]["crowdsecurity/non-syslog"][0].Evt.Meta["datasource_path"] == "authentik-logs.log"
 results["s00-raw"]["crowdsecurity/non-syslog"][0].Evt.Meta["datasource_type"] == "file"
-len(results["s00-raw"]["crowdsecurity/syslog-logs"]) == 1
+results["s00-raw"]["crowdsecurity/non-syslog"][1].Success == true
+results["s00-raw"]["crowdsecurity/non-syslog"][1].Evt.Parsed["message"] == "{\"action\": \"login_failed\", \"auth_via\": \"unauthenticated\", \"client_ip\": \"10.0.0.120\", \"context\": {\"http_request\": {\"args\": {\"query\": \"next=Page\"}, \"method\": \"POST\", \"path\": \"/api/v3/flows/executor/login/\"}, \"password\": \"********************\", \"stage\": {\"app\": \"authentik_stages_identification\", \"model_name\": \"identificationstage\", \"name\": \"default-authentication-identification\", \"pk\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac\"}, \"username\": \"OtherUser\"}, \"event\": \"Created Event\", \"host\": \"auth.example.com\", \"level\": \"info\", \"logger\": \"authentik.events\", \"pid\": 1, \"request_id\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"timestamp\": \"2022-09-01T12:00:00.000000\", \"user\": {\"email\": \"\", \"pk\": 1, \"username\": \"AnonymousUser\"}}"
+results["s00-raw"]["crowdsecurity/non-syslog"][1].Evt.Parsed["program"] == "authentik"
+results["s00-raw"]["crowdsecurity/non-syslog"][1].Evt.Meta["datasource_path"] == "authentik-logs.log"
+results["s00-raw"]["crowdsecurity/non-syslog"][1].Evt.Meta["datasource_type"] == "file"
+results["s00-raw"]["crowdsecurity/non-syslog"][2].Success == true
+results["s00-raw"]["crowdsecurity/non-syslog"][2].Evt.Parsed["program"] == "authentik"
+results["s00-raw"]["crowdsecurity/non-syslog"][2].Evt.Parsed["message"] == "{\"action\": \"login\", \"auth_via\": \"unauthenticated\", \"client_ip\": \"1.2.3.4\", \"context\": {\"auth_method\": \"password\", \"auth_method_args\": {}, \"http_request\": {\"args\": {\"query\": \"next=%2F\"}, \"method\": \"GET\", \"path\": \"/api/v3/flows/executor/login/\"}}, \"event\": \"Created Event\", \"host\": \"auth.example.com\", \"level\": \"info\", \"logger\": \"authentik.events\", \"pid\": 1, \"request_id\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac\", \"timestamp\": \"2022-09-01T12:00:00.000000\", \"user\": {\"email\": \"admin@example.com\", \"pk\": 1, \"username\": \"Admin\"}}"
+results["s00-raw"]["crowdsecurity/non-syslog"][2].Evt.Meta["datasource_path"] == "authentik-logs.log"
+results["s00-raw"]["crowdsecurity/non-syslog"][2].Evt.Meta["datasource_type"] == "file"
+len(results["s00-raw"]["crowdsecurity/syslog-logs"]) == 3
 results["s00-raw"]["crowdsecurity/syslog-logs"][0].Success == false
-len(results["s01-parse"]["crowdsecurity/authentik-logs"]) == 1
+results["s00-raw"]["crowdsecurity/syslog-logs"][1].Success == false
+results["s00-raw"]["crowdsecurity/syslog-logs"][2].Success == false
+len(results["s01-parse"]["crowdsecurity/authentik-logs"]) == 3
 results["s01-parse"]["crowdsecurity/authentik-logs"][0].Success == true
-results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Parsed["source_ip"] == "192.168.1.11"
+results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Parsed["message"] == "{\"action\": \"login_failed\", \"auth_via\": \"unauthenticated\", \"client_ip\": \"1.2.3.4\", \"context\": {\"http_request\": {\"args\": {\"query\": \"next=Page\"}, \"method\": \"POST\", \"path\": \"/api/v3/flows/executor/login/\"}, \"password\": \"********************\", \"stage\": {\"app\": \"authentik_stages_identification\", \"model_name\": \"identificationstage\", \"name\": \"default-authentication-identification\", \"pk\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}, \"username\": \"Admin\"}, \"event\": \"Created Event\", \"host\": \"auth.example.com\", \"level\": \"info\", \"logger\": \"authentik.events\", \"pid\": 1, \"request_id\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"timestamp\": \"2022-09-01T12:00:00.000000\", \"user\": {\"email\": \"\", \"pk\": 1, \"username\": \"AnonymousUser\"}}"
+results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Parsed["program"] == "authentik"
+results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Parsed["source_ip"] == "1.2.3.4"
 results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Parsed["timestamp"] == "2022-09-01T12:00:00.000000"
 results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Parsed["url"] == "auth.example.com"
 results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Parsed["username"] == "Admin"
-results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Parsed["message"] == "{\"action\": \"login_failed\", \"auth_via\": \"unauthenticated\", \"client_ip\": \"192.168.1.11\", \"context\": {\"http_request\": {\"args\": {\"query\": \"next=Page\"}, \"method\": \"POST\", \"path\": \"/api/v3/flows/executor/login/\"}, \"password\": \"********************\", \"stage\": {\"app\": \"authentik_stages_identification\", \"model_name\": \"identificationstage\", \"name\": \"default-authentication-identification\", \"pk\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}, \"username\": \"Admin\"}, \"event\": \"Created Event\", \"host\": \"auth.example.com\", \"level\": \"info\", \"logger\": \"authentik.events\", \"pid\": 1, \"request_id\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"timestamp\": \"2022-09-01T12:00:00.000000\", \"user\": {\"email\": \"\", \"pk\": 1, \"username\": \"AnonymousUser\"}}"
-results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Parsed["program"] == "authentik"
-results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Meta["service"] == "authentik"
+results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Meta["target_user"] == "Admin"
+results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Meta["authentik_url"] == "auth.example.com"
 results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Meta["datasource_path"] == "authentik-logs.log"
 results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Meta["datasource_type"] == "file"
 results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Meta["log_subtype"] == "authentik_failed_login"
 results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Meta["log_type"] == "authentik_failed_auth"
+results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Meta["service"] == "authentik"
+results["s01-parse"]["crowdsecurity/authentik-logs"][0].Evt.Meta["source_ip"] == "1.2.3.4"
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Success == true
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Evt.Parsed["message"] == "{\"action\": \"login_failed\", \"auth_via\": \"unauthenticated\", \"client_ip\": \"10.0.0.120\", \"context\": {\"http_request\": {\"args\": {\"query\": \"next=Page\"}, \"method\": \"POST\", \"path\": \"/api/v3/flows/executor/login/\"}, \"password\": \"********************\", \"stage\": {\"app\": \"authentik_stages_identification\", \"model_name\": \"identificationstage\", \"name\": \"default-authentication-identification\", \"pk\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac\"}, \"username\": \"OtherUser\"}, \"event\": \"Created Event\", \"host\": \"auth.example.com\", \"level\": \"info\", \"logger\": \"authentik.events\", \"pid\": 1, \"request_id\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"timestamp\": \"2022-09-01T12:00:00.000000\", \"user\": {\"email\": \"\", \"pk\": 1, \"username\": \"AnonymousUser\"}}"
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Evt.Parsed["program"] == "authentik"
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Evt.Parsed["source_ip"] == "10.0.0.120"
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Evt.Parsed["timestamp"] == "2022-09-01T12:00:00.000000"
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Evt.Parsed["url"] == "auth.example.com"
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Evt.Parsed["username"] == "OtherUser"
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Evt.Meta["datasource_type"] == "file"
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Evt.Meta["log_subtype"] == "authentik_failed_login"
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Evt.Meta["log_type"] == "authentik_failed_auth"
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Evt.Meta["service"] == "authentik"
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Evt.Meta["source_ip"] == "10.0.0.120"
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Evt.Meta["target_user"] == "OtherUser"
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Evt.Meta["authentik_url"] == "auth.example.com"
+results["s01-parse"]["crowdsecurity/authentik-logs"][1].Evt.Meta["datasource_path"] == "authentik-logs.log"
+results["s01-parse"]["crowdsecurity/authentik-logs"][2].Success == false
 len(results["success"][""]) == 0

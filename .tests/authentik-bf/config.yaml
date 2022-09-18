@@ -1,0 +1,12 @@
+parsers:
+- crowdsecurity/syslog-logs
+- crowdsecurity/dateparse-enrich
+- ./parsers/s01-parse/lockbrock/authentik-logs.yaml
+scenarios:
+- "./scenarios/lockbrock/authentik-bf.yaml"
+postoverflows:
+- ""
+log_file: authentik-bf.log
+log_type: authentik
+labels: {}
+ignore_parsers: true
